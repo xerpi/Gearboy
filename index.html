@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Gearboy by drhelius</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Gearboy</h1>
+        <p>Nintendo Game Boy emulator written in C++</p>
+
+        <p class="view"><a href="https://github.com/drhelius/Gearboy">View the Project on GitHub <small>drhelius/Gearboy</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/drhelius/Gearboy/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/drhelius/Gearboy/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/drhelius/Gearboy">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Gearboy</h1>
+
+<p><b>Copyright © 2012 by Ignacio Sanchez</b></p>
+
+<hr><p>Gearboy is a Nintendo Game Boy emulator written in C++.</p>
+
+<p>The emulator is focused on readability of source code, but nevertheless it has good compatibility.</p>
+
+<p>A lot of effort has gone into this in order to follow OOP and keep it as simple as possible.</p>
+
+<hr><h2>Features</h2>
+
+<ul>
+<li>Full CPU emulation, passes cpu_instrs.gb from blargg's tests.</li>
+<li>Accurate instruction timing, passes instr_timing.gb from blargg's tests.</li>
+<li>Full support for most common Memory Bank Controllers (ROM, MBC1, MBC2, MBC3, MBC5)</li>
+<li>Accurate emulation of LCD controller. Full support for background, window and sprites with correct timings and priorities.</li>
+<li>Integrated disassembler. It can dump the full disassembled memory to a text file.</li>
+<li>Compiles on Windows (Visual Studio 2010), Linux and Mac OS X. Netbeans project provided for Linux and Mac.</li>
+</ul><h2>Things left</h2>
+
+<ul>
+<li>Add sound support.</li>
+<li>Add Game Boy Color support</li>
+<li>Save RAM battery to disk.</li>
+<li>Add RTC support.</li>
+<li>Improve timing and compatibility.</li>
+<li>Use QT for GUI.</li>
+<li>Cross device iOS version</li>
+</ul><h2>Passed Tests</h2>
+
+<p>This tests are from blargg's test roms (<a href="http://blargg.parodius.com/gb-tests/">http://blargg.parodius.com/gb-tests/</a>)</p>
+
+<p><img src="http://www.geardome.com/files/gearboy/12.png" alt="cpu_instrs.gb"><img src="http://www.geardome.com/files/gearboy/13.png" alt="insrt_timing.gb"><img src="http://www.geardome.com/files/gearboy/14.png" alt="lcd_sync.gb"></p>
+
+<h2>Screenshots</h2>
+
+<p><img src="http://www.geardome.com/files/gearboy/1.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/2.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/3.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/4.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/5.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/6.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/7.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/8.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/9.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/10.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/11.png" alt="Screenshot"></p>
+
+<h2>License</h2>
+
+<p><i>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation. The full license is available at <a href="http://www.gnu.org/licenses/gpl.html">http://www.gnu.org/licenses/gpl.html</a> This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</i></p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/drhelius">drhelius</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
