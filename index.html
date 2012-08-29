@@ -4,40 +4,28 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Gearboy by drhelius</title>
+
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/main.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <script src="javascripts/scale.fix.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
   <body>
-
+    <div class="wrapper">
       <header>
         <h1>Gearboy</h1>
         <p>Nintendo Game Boy emulator written in C++</p>
+        <p class="view"><a href="https://github.com/drhelius/Gearboy">View the Project on GitHub <small>drhelius/Gearboy</small></a></p>
+        <ul>
+          <li><a href="https://github.com/drhelius/Gearboy/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/drhelius/Gearboy/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/drhelius/Gearboy">View On <strong>GitHub</strong></a></li>
+        </ul>
       </header>
-
-      <div id="banner">
-        <span id="logo"></span>
-
-        <a href="https://github.com/drhelius/Gearboy" class="button fork"><strong>View On GitHub</strong></a>
-        <div class="downloads">
-          <span>Downloads:</span>
-          <ul>
-            <li><a href="https://github.com/drhelius/Gearboy/zipball/master" class="button">ZIP</a></li>
-            <li><a href="https://github.com/drhelius/Gearboy/tarball/master" class="button">TAR</a></li>
-          </ul>
-        </div>
-      </div><!-- end banner -->
-
-    <div class="wrapper">
-      <nav>
-        <ul></ul>
-      </nav>
       <section>
         <h1>Gearboy</h1>
 
@@ -54,39 +42,94 @@
 <ul>
 <li>Full CPU emulation, passes cpu_instrs.gb from blargg's tests.</li>
 <li>Accurate instruction timing, passes instr_timing.gb from blargg's tests.</li>
-<li>Full support for most common Memory Bank Controllers (ROM, MBC1, MBC2, MBC3, MBC5)</li>
-<li>Accurate emulation of LCD controller. Full support for background, window and sprites with correct timings and priorities.</li>
-<li>Integrated disassembler. It can dump the full disassembled memory to a text file.</li>
-<li>Compiles on Windows (Visual Studio 2010), Linux and Mac OS X. Netbeans project provided for Linux and Mac.</li>
+<li>Full support for most common Memory Bank Controllers (MBC1, MBC2, MBC3, MBC5) and ROM + RAM cartridges.</li>
+<li>Accurate emulation of LCD controller. Full support for background, window and sprites, with correct timings and priorities.</li>
+<li>Sound emulation using SDL Audio and <a href="http://www.slack.net/%7Eant/libs/audio.html#Gb_Snd_Emu">Gb_Snd_Emu library</a>.</li>
+<li>Basic Game Boy Color support.</li>
+<li>Integrated disassembler. It can dump the full disassembled memory to a text file or access it in real time.</li>
+<li>Uses Qt framework for GUI and OpenGL for rendering.</li>
+<li>Multi platform. Compiles and runs on Windows, Linux and Mac OS X.</li>
+<li>Visual Studio 2010 project provided for Windows. Netbeans 7.2 project provided for Linux and Mac OS X.</li>
 </ul><h2>Things left</h2>
 
 <ul>
-<li>Add sound support.</li>
-<li>Add Game Boy Color support</li>
+<li>Improve GUI.</li>
+<li>Improve Game Boy Color support.</li>
 <li>Save RAM battery to disk.</li>
 <li>Add RTC support.</li>
 <li>Improve timing and compatibility.</li>
-<li>Use QT for GUI.</li>
-<li>Cross device iOS version</li>
+<li>Cross device iOS version.</li>
+<li>Support for compressed roms.</li>
+</ul><h2>Compiling Instructions</h2>
+
+<p>The best way of compiling Gearboy is by using one of the IDE projects provided for each platform.</p>
+
+<p>For all platforms you will need SDL and Qt Framework SDKs installed and configured.</p>
+
+<p>There is a nice Netbeans + Qt tutorial <a href="http://netbeans.org/kb/docs/cnd/qt-applications.html">here</a>.</p>
+
+<h3>Windows</h3>
+
+<ul>
+<li>You need Visual Studio 2010 (Express Edition will do but you won't be able to install the Qt Add-in).</li>
+<li>Install the <a href="http://qt.nokia.com/downloads/sdk-windows-cpp">Qt SDK for Windows</a>.</li>
+<li>Install the Qt Visual Studio Add-in and point it to the <a href="http://qt.nokia.com/downloads/visual-studio-add-in">Qt SDK</a>.</li>
+<li>Install and configure <a href="http://www.libsdl.org/download-1.2.php">SDL</a> for development.</li>
+<li>Open the Gearboy Visual Studio project and build.</li>
+</ul><h3>Linux</h3>
+
+<ul>
+<li>You need at least Netbeans 7.2 for C++.</li>
+<li>Install the Qt development dependencies (Ubuntu: <code>sudo apt-get install qt4-dev-tools</code>).</li>
+<li>Install the OpenGL development dependencies (Ubuntu: <code>sudo apt-get install freeglut3-dev</code>).</li>
+<li>Install and configure <a href="http://www.libsdl.org/download-1.2.php">SDL</a> for development.</li>
+<li>Open the Gearboy Netbeans project and build.</li>
+<li>Alternatively you can use <code>make</code> to build the project.</li>
+<li>In Ubuntu 12.04 I had to <code>set export SDL_AUDIODRIVER=ALSA</code> for the sound to work properly.</li>
+</ul><h3>Mac OS X</h3>
+
+<ul>
+<li>You need at least Netbeans 7.2 for C++.</li>
+<li>Install Xcode for the compiler to be available on the command line.</li>
+<li>Install the <a href="http://qt.nokia.com/downloads/sdk-mac-os-cpp">Qt SDK for Mac OS</a>.</li>
+<li>Add <code>qmake</code> to the PATH (You can find qmake in the bin directory where you have Qt SDK installed).</li>
+<li>Install and configure <a href="http://www.libsdl.org/download-1.2.php">SDL</a> for development.</li>
+<li>Open the Gearboy Netbeans project and build. This project is configured for using <code>clang</code>.</li>
+<li>Alternatively you can use <code>make</code> to build the project.</li>
 </ul><h2>Passed Tests</h2>
 
-<p>This tests are from blargg's test roms (<a href="http://blargg.parodius.com/gb-tests/">http://blargg.parodius.com/gb-tests/</a>)</p>
+<p>This tests are from <a href="http://blargg.parodius.com/gb-tests/">blargg's test roms</a>.</p>
 
-<p><img src="http://www.geardome.com/files/gearboy/12.png" alt="cpu_instrs.gb"><img src="http://www.geardome.com/files/gearboy/13.png" alt="insrt_timing.gb"><img src="http://www.geardome.com/files/gearboy/14.png" alt="lcd_sync.gb"></p>
+<p><img src="http://www.geardome.com/files/gearboy/gearboy_1.png" alt="cpu_instrs.gb"><img src="http://www.geardome.com/files/gearboy/gearboy_2.png" alt="insrt_timing.gb"><img src="http://www.geardome.com/files/gearboy/gearboy_3.png" alt="lcd_sync.gb"></p>
 
 <h2>Screenshots</h2>
 
-<p><img src="http://www.geardome.com/files/gearboy/1.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/2.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/3.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/4.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/5.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/6.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/7.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/8.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/9.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/10.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/11.png" alt="Screenshot"></p>
+<p><img src="http://www.geardome.com/files/gearboy/gearboy_4.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_5.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_6.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_7.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_8.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_9.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_10.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_11.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_12.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_13.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_14.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_15.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_16.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_17.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_18.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_19.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_20.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_21.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_22.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_23.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_24.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_25.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_26.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_27.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_28.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_29.png" alt="Screenshot"><img src="http://www.geardome.com/files/gearboy/gearboy_31.png" alt="Screenshot"></p>
 
 <h2>License</h2>
 
-<p><i>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation. The full license is available at <a href="http://www.gnu.org/licenses/gpl.html">http://www.gnu.org/licenses/gpl.html</a> This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</i></p>
+<p><i>Gearboy - Nintendo Game Boy Emulator</i></p>
+
+<p><i>Copyright (C) 2012  Ignacio Sanchez</i></p>
+
+<p><i>This program is free software: you can redistribute it and/or modify</i>
+<i>it under the terms of the GNU General Public License as published by</i>
+<i>the Free Software Foundation, either version 3 of the License, or</i>
+<i>any later version.</i></p>
+
+<p><i>This program is distributed in the hope that it will be useful,</i>
+<i>but WITHOUT ANY WARRANTY; without even the implied warranty of</i>
+<i>MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the</i>
+<i>GNU General Public License for more details.</i></p>
+
+<p><i>You should have received a copy of the GNU General Public License</i>
+<i>along with this program.  If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a></i></p>
       </section>
-      <footer>
-        <p>Project maintained by <a href="https://github.com/drhelius">drhelius</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
-      </footer>
     </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/drhelius">drhelius</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
   </body>
