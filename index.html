@@ -60,6 +60,7 @@
 <li>Improve timing and compatibility.</li>
 <li>Cross device iOS version.</li>
 <li>Support for compressed roms.</li>
+<li>Debugger</li>
 </ul><h2>Compiling Instructions</h2>
 
 <p>The best way of compiling Gearboy is by using one of the IDE projects provided for each platform.</p>
@@ -80,12 +81,12 @@
 
 <ul>
 <li>You need at least Netbeans 7.2 for C++.</li>
-<li>Install the Qt development dependencies (Ubuntu: <code>sudo apt-get install qt4-dev-tools</code>).</li>
-<li>Install the OpenGL development dependencies (Ubuntu: <code>sudo apt-get install freeglut3-dev</code>).</li>
-<li>Install and configure <a href="http://www.libsdl.org/download-1.2.php">SDL</a> for development.</li>
+<li>Install Qt development dependencies (Ubuntu: <code>sudo apt-get install qt4-dev-tools</code>).</li>
+<li>Install OpenGL development dependencies (Ubuntu: <code>sudo apt-get install freeglut3-dev</code>).</li>
+<li>Install SDL development dependencies (Ubuntu: <code>sudo apt-get install libsdl1.2-dev</code>).</li>
 <li>Open the Gearboy Netbeans project and build.</li>
 <li>Alternatively you can use <code>make</code> to build the project.</li>
-<li>In Ubuntu 12.04 I had to <code>set export SDL_AUDIODRIVER=ALSA</code> for the sound to work properly.</li>
+<li>In Ubuntu 12.04 I had to <code>export SDL_AUDIODRIVER=ALSA</code> for the sound to work properly.</li>
 </ul><h3>Mac OS X</h3>
 
 <ul>
@@ -100,7 +101,7 @@
 
 <p>This tests are from <a href="http://blargg.parodius.com/gb-tests/">blargg's test roms</a>.</p>
 
-<p><img src="http://www.geardome.com/files/gearboy/gearboy_1.png" alt="cpu_instrs.gb"><img src="http://www.geardome.com/files/gearboy/gearboy_2.png" alt="insrt_timing.gb"><img src="http://www.geardome.com/files/gearboy/gearboy_3.png" alt="lcd_sync.gb"></p>
+<p><img src="http://www.geardome.com/files/gearboy/gearboy_1.png" alt="cpu_instrs.gb"><img src="http://www.geardome.com/files/gearboy/gearboy_2.png" alt="insrt_timing.gb"><img src="http://www.geardome.com/files/gearboy/gearboy_3.png" alt="lcd_sync.gb"><img src="http://www.geardome.com/files/gearboy/gearboy_32.png" alt="dmg_sound.gb"><img src="http://www.geardome.com/files/gearboy/gearboy_33.png" alt="cgb_sound.gb"></p>
 
 <h2>Screenshots</h2>
 
