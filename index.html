@@ -49,8 +49,8 @@
 <li>Integrated disassembler. It can dump the full disassembled memory to a text file or access it in real time.</li>
 <li>Compressed rom support (ZIP deflate).</li>
 <li>Uses Qt framework for GUI and OpenGL for rendering.</li>
-<li>Multi platform. Compiles and runs on Windows, Linux and Mac OS X.</li>
-<li>Visual Studio 2010 project provided for Windows. Netbeans 7.2 project provided for Linux and Mac OS X.</li>
+<li>Multi platform. Compiles and runs on Windows, Linux, Mac OS X and iOS.</li>
+<li>Visual Studio 2010 project provided for Windows. Netbeans 7.2 project provided for Linux and Mac OS X. Xcode project for iOS.</li>
 </ul><h2>Todo List</h2>
 
 <ul>
@@ -58,13 +58,12 @@
 <li>Save RAM battery to disk.</li>
 <li>Add RTC support.</li>
 <li>Improve timing and compatibility.</li>
-<li>Cross device iOS version.</li>
 <li>Debugger</li>
 </ul><h2>Compiling Instructions</h2>
 
 <p>The best way of compiling Gearboy is by using one of the IDE projects provided for each platform.</p>
 
-<p>For all platforms you will need SDL and Qt Framework SDKs installed and configured.</p>
+<p>For all desktop platforms you will need SDL and Qt Framework SDKs installed and configured. SDL is provided as a framework for iOS project.</p>
 
 <p>There is a nice Netbeans + Qt tutorial <a href="http://netbeans.org/kb/docs/cnd/qt-applications.html">here</a>.</p>
 
@@ -96,6 +95,12 @@
 <li>Install and configure <a href="http://www.libsdl.org/download-1.2.php">SDL</a> for development.</li>
 <li>Open the Gearboy Netbeans project and build. This project is configured for using <code>clang</code>.</li>
 <li>Alternatively you can use <code>make</code> to build the project.</li>
+</ul><h3>iOS</h3>
+
+<ul>
+<li>Install Xcode for Mac OS X. iOS SDK 5.1 or later is needed. </li>
+<li>Open the Gearboy Xcode project and build.</li>
+<li>In order to run it on real hardware you will need an iOS developer certificate.</li>
 </ul><h2>Passed Tests</h2>
 
 <p>This tests are from <a href="http://blargg.parodius.com/gb-tests/">blargg's test roms</a>.</p>
