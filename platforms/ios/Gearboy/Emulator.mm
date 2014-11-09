@@ -28,6 +28,7 @@ const float kGB_TexWidth = kGB_Width / 256.0f;
 const float kGB_TexHeight = kGB_Height / 256.0f;
 const GLfloat box[] = {0.0f, kGB_Height, 1.0f, kGB_Width,kGB_Height, 1.0f, 0.0f, 0.0f, 1.0f, kGB_Width, 0.0f, 1.0f};
 const GLfloat tex[] = {0.0f, kGB_TexHeight, kGB_TexWidth, kGB_TexHeight, 0.0f, 0.0f, kGB_TexWidth, 0.0f};
+const char* kSaveFolder = "/var/mobile/Library/Gearboy";
 
 @implementation Emulator
 
@@ -38,6 +39,14 @@ const GLfloat tex[] = {0.0f, kGB_TexHeight, kGB_TexWidth, kGB_TexHeight, 0.0f, 0
     if (self = [super init])
     {
         firstFrame = YES;
+        
+        NSDictionary *attrib = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0777], NSFilePosixPermissions, nil];
+        NSString *savePath = [NSString stringWithUTF8String:kSaveFolder];
+        
+        if (![[NSFileManager defaultManager] fileExistsAtPath:savePath])
+        {
+            [[NSFileManager defaultManager] createDirectoryAtPath:savePath withIntermediateDirectories:YES attributes:attrib error:NULL];
+        }
         
         theGearboyCore = new GearboyCore();
         theGearboyCore->Init();
@@ -92,7 +101,7 @@ const GLfloat tex[] = {0.0f, kGB_TexHeight, kGB_TexWidth, kGB_TexHeight, 0.0f, 0
 
 -(void)dealloc
 {
-    theGearboyCore->SaveRam();
+    theGearboyCore->SaveRam(kSaveFolder);
     SafeDeleteArray(theTexture);
     SafeDeleteArray(theFrameBuffer);
     SafeDelete(theGearboyCore);
@@ -219,9 +228,9 @@ const GLfloat tex[] = {0.0f, kGB_TexHeight, kGB_TexWidth, kGB_TexHeight, 0.0f, 0
 
 -(void)loadRomWithPath: (NSString *)filePath
 {
-    theGearboyCore->SaveRam();
+    theGearboyCore->SaveRam(kSaveFolder);
     theGearboyCore->LoadROM([filePath UTF8String], false);
-    theGearboyCore->LoadRam();
+    theGearboyCore->LoadRam(kSaveFolder);
     firstFrame = YES;
 }
 
@@ -252,15 +261,15 @@ const GLfloat tex[] = {0.0f, kGB_TexHeight, kGB_TexWidth, kGB_TexHeight, 0.0f, 0
 
 -(void)reset
 {
-    theGearboyCore->SaveRam();
+    theGearboyCore->SaveRam(kSaveFolder);
     theGearboyCore->ResetROM(false);
-    theGearboyCore->LoadRam();
+    theGearboyCore->LoadRam(kSaveFolder);
     firstFrame = YES;
 }
 
 -(void)save
 {
-    theGearboyCore->SaveRam();
+    theGearboyCore->SaveRam(kSaveFolder);
 }
 
 - (void)setAudio: (BOOL)enabled

@@ -34,6 +34,15 @@
     splitViewController.delegate = self;
     splitViewController.presentsWithGesture = NO;
     masterViewController = (MasterViewController *)[[splitViewController.viewControllers firstObject] topViewController];
+    
+    NSString *documentPath = @"/var/mobile/Media/ROMs/GAMEBOY";
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:documentPath])
+    {
+        NSDictionary *attrib = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0777], NSFilePosixPermissions, nil];
+        [[NSFileManager defaultManager] createDirectoryAtPath:documentPath withIntermediateDirectories:YES attributes:attrib error:NULL];
+    }
+    
     return YES;
 }
 
@@ -69,14 +78,13 @@
 {
     if (url != nil && [url isFileURL])
     {
-        NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         NSError* error;
         NSFileManager *fileManager = [[NSFileManager alloc] init];
         
         NSString* srcPath = [url path];
-        NSString* destPath = [NSString stringWithFormat:@"%@/%@", documentsDirectory, [srcPath lastPathComponent]];
+        NSString* destPath = [NSString stringWithFormat:@"%@/%@", @"/var/mobile/Media/ROMs/GAMEBOY", [srcPath lastPathComponent]];
         
-        if ([fileManager copyItemAtPath:srcPath toPath:destPath error:&error])
+        if ([fileManager copyItemAtPath:[url path] toPath:destPath error:&error])
         {
             if ([fileManager removeItemAtPath:[url path] error:&error])
             {
