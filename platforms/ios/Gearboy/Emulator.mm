@@ -47,6 +47,12 @@ const char* kSaveFolder = "/var/mobile/Library/Gearboy";
         {
             [[NSFileManager defaultManager] createDirectoryAtPath:savePath withIntermediateDirectories:YES attributes:attrib error:NULL];
         }
+
+#ifdef __APPLE__
+#if TARGET_IPHONE_SIMULATOR == 1 || TARGET_OS_IPHONE == 1
+        SDL_SetMainReady();
+#endif
+#endif
         
         theGearboyCore = new GearboyCore();
         theGearboyCore->Init();
