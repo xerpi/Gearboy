@@ -218,7 +218,7 @@ const char* kSaveFolder = "/var/mobile/Library/Gearboy";
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 }
 
--(void)renderQuadWithViewportWidth: (int)viewportWidth andHeight: (int)viewportHeight andMirrorY: (BOOL) mirrorY
+-(void)renderQuadWithViewportWidth: (float)viewportWidth andHeight: (float)viewportHeight andMirrorY: (BOOL) mirrorY
 {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
