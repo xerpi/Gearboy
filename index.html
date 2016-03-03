@@ -26,15 +26,13 @@
 
 <hr>
 
+<p><a href="https://travis-ci.org/drhelius/Gearboy"><img src="https://travis-ci.org/drhelius/Gearboy.svg?branch=master" alt="Build Status"></a></p>
+
 <p>Gearboy is a Nintendo Game Boy / GameBoy Color emulator written in C++ that runs on iOS, Raspberry Pi, Mac, Windows and Linux.</p>
 
 <p>The main focus of this emulator is readability of source code with very high compatibility.</p>
 
 <p>Follow me on Twitter for updates: <a href="http://twitter.com/drhelius">http://twitter.com/drhelius</a></p>
-
-<p>If you want new features ask for them but don't forget donating, thanks :)</p>
-
-<p><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=28YUTJVAH7JH8" title="PayPal - The safer, easier way to pay online!"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" alt="PayPal - The safer, easier way to pay online!"></a></p>
 
 <hr>
 
@@ -42,11 +40,13 @@
 <a id="downloads" class="anchor" href="#downloads" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Downloads</h2>
 
 <ul>
-<li>Gearboy 1.4 for Jailbroken iOS: <a href="http://modmyi.com/info/gearboygameboy.d.php">Cydia</a>. You can open rom files from other apps like Safari or Dropbox.</li>
-<li>Gearboy 1.4 for Non-Jailbroken iOS: Use your developer certificate to compile and install it, then you can open rom files from other apps or use <a href="http://support.apple.com/kb/ht4094">iTunes file sharing</a>. </li>
-<li>Gearboy 0.8 for Windows: <a href="http://www.geardome.com/files/gearboy/Gearboy-0.8-Windows.zip">Gearboy-0.8-Windows.zip</a>
+<li>Gearboy 2.1 for Jailbroken iOS: <a href="http://modmyi.com/info/gearboygameboy.d.php">Cydia</a>. You can open rom files from other apps like Safari or Dropbox. They can be placed in <code>/var/mobile/Media/ROMs/GAMEBOY</code> too. Save files are placed in <code>/var/mobile/Library/Gearboy</code>
 </li>
-<li>Gearboy 0.8 for Linux: <a href="http://www.geardome.com/files/gearboy/Gearboy-0.8-Linux.tar.gz">Gearboy-0.8-Linux.tar.gz</a>
+<li>Gearboy 2.1 for Non-Jailbroken iOS: You can open rom files from other apps like Safari or Dropbox, or use <a href="http://support.apple.com/kb/ht4094">iTunes file sharing</a>. </li>
+<li>Gearboy 2.1 for Mac OS X: <code>brew install homebrew/games/gearboy</code>
+</li>
+<li>Gearboy 1.6 for Windows: <a href="http://www.geardome.com/files/gearboy/Gearboy-1.6-Windows.zip">Gearboy-1.6-Windows.zip</a> (NOTE: You may need to install the <a href="http://www.microsoft.com/en-us/download/details.aspx?id=40784">Microsoft Visual C++ Redistributable</a>)</li>
+<li>Gearboy 1.6 for Linux: <a href="http://www.geardome.com/files/gearboy/Gearboy-0.8-Linux.tar.gz">Gearboy-1.6-Linux.tar.gz</a>
 </li>
 </ul>
 
@@ -68,45 +68,45 @@
 </ul>
 
 <h2>
-<a id="todo-list" class="anchor" href="#todo-list" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Todo List</h2>
-
-<ul>
-<li>Saving and loading game states (only desktop).</li>
-<li>Pixel precision scan line timing (<a href="https://gist.github.com/3730564">https://gist.github.com/3730564</a>).</li>
-<li>Debugger.</li>
-</ul>
-
-<h2>
-<a id="save-files-note" class="anchor" href="#save-files-note" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Save Files Note</h2>
-
-<p>If you don't have access to an Apple developer account and are using older versions of Gearboy (such as from emu4ios), you can use a hex editor to convert between a .gearboy file and a .sav file. 
-In particular, a .gearboy file has about 40 extra bytes at the beginning of the file. If you remove these 40 bytes and rename to a .sav extension the file should be compatible with other emulators. You can also reinsert the 40 bytes to convert a .sav file to .gearboy. This should work for Pokemon RBY. 
-If you are still having problems, see if you can find an SRAM map for your game and double check that the offset matches.</p>
-
-<h2>
 <a id="compiling-instructions" class="anchor" href="#compiling-instructions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Compiling Instructions</h2>
 
 <p>The best way of compiling Gearboy is by using one of the IDE projects provided for each platform.</p>
 
-<p>For all desktop platforms you will need SDL 2 and Qt 4 SDKs installed and configured. SDL is provided as a framework for iOS.</p>
-
-<p>There is a nice Netbeans + Qt tutorial <a href="http://netbeans.org/kb/docs/cnd/qt-applications.html">here</a>.</p>
+<p>For all desktop platforms you will need SDL 2 and Qt 5 SDKs installed and configured.</p>
 
 <h3>
 <a id="ios" class="anchor" href="#ios" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>iOS</h3>
 
 <ul>
-<li>Install Xcode for Mac OS X. You need iOS SDK 5.1 or later. </li>
-<li>Open the Gearboy Xcode project and build.</li>
-<li>Run it on real hardware using your iOS developer certificate. For jailbroken devices use the jailbreak branch.</li>
+<li>Install Xcode for Mac OS X. You need iOS SDK 8 or later. </li>
+<li>Build the project. </li>
+<li>Run it on real hardware using your iOS developer certificate. Make sure it compiles on Release for extra optimizations.</li>
+<li>For jailbroken devices use the jailbreak branch.</li>
 </ul>
 
 <h3>
-<a id="raspberry-pi---raspbian" class="anchor" href="#raspberry-pi---raspbian" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Raspberry Pi - Raspbian</h3>
+<a id="raspberry-pi-2---raspbian" class="anchor" href="#raspberry-pi-2---raspbian" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Raspberry Pi 2 - Raspbian</h3>
 
 <ul>
-<li>Install and configure <a href="http://www.libsdl.org/download-2.0.php">SDL 2</a> for development.</li>
-<li>Use <code>make</code> to build the project.</li>
+<li>Install and configure <a href="http://www.libsdl.org/download-2.0.php">SDL 2</a> for development:</li>
+</ul>
+
+<div class="highlight highlight-source-shell"><pre>sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install build-essential libfreeimage-dev libopenal-dev libpango1.0-dev libsndfile-dev libudev-dev libasound2-dev libjpeg-dev libtiff5-dev libwebp-dev automake
+<span class="pl-c1">cd</span> <span class="pl-k">~</span>
+wget https://www.libsdl.org/release/SDL2-2.0.3.tar.gz
+tar zxvf SDL2-2.0.3.tar.gz
+<span class="pl-c1">cd</span> SDL2-2.0.3 <span class="pl-k">&amp;&amp;</span> mkdir build <span class="pl-k">&amp;&amp;</span> <span class="pl-c1">cd</span> build
+../configure --disable-pulseaudio --disable-esd --disable-video-mir --disable-video-wayland --disable-video-x11 --disable-video-opengl --host=armv7l-raspberry-linux-gnueabihf
+make -j 4
+sudo make install</pre></div>
+
+<ul>
+<li>Install libconfig library dependencies for development: <code>sudo apt-get install libconfig++-dev</code>.</li>
+<li>Use <code>make -j 4</code> in the <code>platforms/raspberrypi2/Gearboy/</code> folder to build the project.</li>
+<li>Use <code>export SDL_AUDIODRIVER=ALSA</code> before running the emulator for the best performance.</li>
+<li>The emulator generates a <code>gearboy.cfg</code> configuration for you where you can customize keyboard and gamepads. Key codes are from <a href="https://wiki.libsdl.org/SDL_Keycode">SDL</a>.</li>
 </ul>
 
 <h3>
@@ -114,8 +114,8 @@ If you are still having problems, see if you can find an SRAM map for your game 
 
 <ul>
 <li>You need Visual Studio 2010 (Express Edition will do but you won't be able to install the Qt Add-in).</li>
-<li>Install the <a href="http://qt-project.org/downloads">Qt 4 SDK for Windows</a>.</li>
-<li>Install the <a href="http://qt-project.org/downloads">Qt 4 Visual Studio Add-in</a> and point it to the Qt SDK.</li>
+<li>Install the <a href="http://qt-project.org/downloads">Qt 5 SDK for Windows</a>.</li>
+<li>Install the <a href="http://qt-project.org/downloads">Qt 5 Visual Studio Add-in</a> and point it to the Qt SDK.</li>
 <li>Install and configure <a href="http://www.libsdl.org/download-2.0.php">SDL 2</a> for development.</li>
 <li>In order to use OpenGL extensions I used <a href="http://glew.sourceforge.net/">GLEW</a>. This is because of a <a href="http://stackoverflow.com/questions/11845230/glgenbuffers-crashes-in-release-build">bug</a> in QGLFunctions. Make sure the GLEW headers and libs are configured within VC++.</li>
 <li>Open the Gearboy Visual Studio project and build.</li>
@@ -125,12 +125,11 @@ If you are still having problems, see if you can find an SRAM map for your game 
 <a id="mac-os-x" class="anchor" href="#mac-os-x" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mac OS X</h3>
 
 <ul>
-<li>You need Netbeans 7.3 or later.</li>
-<li>Install Xcode for the compiler to be available on the command line.</li>
-<li>Install the <a href="http://qt-project.org/downloads">Qt 4 SDK for Mac OS</a>.</li>
-<li>Install and configure <a href="http://www.libsdl.org/download-2.0.php">SDL 2</a> for development.</li>
-<li>Open the Gearboy Netbeans project and build. The project will use <code>clang</code>.</li>
-<li>Alternatively, you can use <code>make -f nbproject/Makefile-Release.mk SUBPROJECTS= .build-conf</code> to build the project.</li>
+<li>You need Qt Creator, included in the Qt 5 SDK.</li>
+<li>Install Xcode and run <code>xcode-select --install</code> in the terminal for the compiler to be available on the command line.</li>
+<li>Install the <a href="http://qt-project.org/downloads">Qt 5 SDK for Mac OS</a>.</li>
+<li>Download <a href="http://www.libsdl.org/download-2.0.php">SDL 2</a> source code. Then run this three commands <code>./configure</code> <code>make</code> <code>sudo make install</code> on the terminal.</li>
+<li>Open the Gearboy Qt project and build.</li>
 </ul>
 
 <h3>
@@ -138,13 +137,13 @@ If you are still having problems, see if you can find an SRAM map for your game 
 
 <ul>
 <li>You need Netbeans 7.3 or later.</li>
-<li>Install Qt 4 development dependencies (Ubuntu: <code>sudo apt-get install qt4-dev-tools</code>).</li>
+<li>Install Qt 5 development dependencies (Ubuntu: <code>sudo apt-get install qt5-default qttools5-dev-tools</code>).</li>
 <li>Install OpenGL development dependencies (Ubuntu: <code>sudo apt-get install freeglut3-dev</code>).</li>
 <li>Install SDL 2 development dependencies (Ubuntu: <code>sudo apt-get install libsdl2-dev</code>).</li>
-<li>In order to use OpenGL extensions I used GLEW dependencies (Ubuntu: <code>sudo apt-get install libglew1.8-dev</code>). This is because of a <a href="http://stackoverflow.com/questions/11845230/glgenbuffers-crashes-in-release-build">bug</a> in QGLFunctions.</li>
+<li>In order to use OpenGL extensions I used GLEW dependencies (Ubuntu: <code>sudo apt-get install libglew-dev</code>). This is because of a <a href="http://stackoverflow.com/questions/11845230/glgenbuffers-crashes-in-release-build">bug</a> in QGLFunctions.</li>
 <li>Open the Gearboy Netbeans project and build.</li>
 <li>Alternatively you can use <code>make -f nbproject/Makefile-Release.mk SUBPROJECTS= .build-conf</code> to build the project.</li>
-<li>In Ubuntu 13.10 I had to <code>export SDL_AUDIODRIVER=ALSA</code> before running the emulator for the sound to work properly.</li>
+<li>In Ubuntu I had to <code>export SDL_AUDIODRIVER=ALSA</code> before running the emulator for the sound to work properly.</li>
 </ul>
 
 <h2>
