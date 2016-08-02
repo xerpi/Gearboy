@@ -1,6 +1,7 @@
 /*
  * Gearboy - Nintendo Game Boy Emulator
  * Copyright (C) 2012  Ignacio Sanchez
+ * 		 2016  Sergi Granell
 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,8 +31,8 @@
 
 #include <vita2d.h>
 
-#define SCREEN_WIDTH 940
-#define SCREEN_HEIGHT 544
+#define SCREEN_W 940
+#define SCREEN_H 544
 
 struct palette_color {
 	int red;
@@ -42,13 +43,14 @@ struct palette_color {
 
 static bool running = true;
 static bool paused = false;
+static bool fullscreen = false;
+static int scale = 4;
+static int gb_draw_x = 0;
+static int gb_draw_y = 0;
+static float fullscreen_scale_x = 0.0f;
+static float fullscreen_scale_y = 0.0f;
 
 static const char *output_file = "gearboy.cfg";
-
-static const float kGB_Width = 160.0f;
-static const float kGB_Height = 144.0f;
-static const float kGB_TexWidth = kGB_Width / 256.0f;
-static const float kGB_TexHeight = kGB_Height / 256.0f;
 
 static GearboyCore *theGearboyCore;
 static GB_Color *theFrameBuffer;
@@ -56,9 +58,15 @@ static vita2d_texture *gb_texture;
 static void *gb_texture_pixels;
 
 static palette_color dmg_palette[4];
-static uint32_t screen_width, screen_height;
 
-static void init_sdl(void)
+static void set_scale(int new_scale)
+{
+	scale = new_scale;
+	gb_draw_x = SCREEN_W / 2 - (GAMEBOY_WIDTH / 2) * scale;
+	gb_draw_y = SCREEN_H / 2 - (GAMEBOY_HEIGHT / 2) * scale;
+}
+
+static void init_palette(void)
 {
 	dmg_palette[0].red = 0xEF;
 	dmg_palette[0].green = 0xF3;
@@ -85,7 +93,12 @@ static void init(void)
 {
 	vita2d_init();
 	vita2d_set_clear_color(RGBA8(0x40, 0x40, 0x40, 0xFF));
-	init_sdl();
+	init_palette();
+
+	fullscreen_scale_x = SCREEN_W / (float)GAMEBOY_WIDTH;
+	fullscreen_scale_y = SCREEN_H / (float)GAMEBOY_HEIGHT;
+
+	set_scale(3);
 
 	gb_texture = vita2d_create_empty_texture(GAMEBOY_WIDTH, GAMEBOY_HEIGHT);
 	gb_texture_pixels = vita2d_texture_get_datap(gb_texture);
@@ -96,57 +109,10 @@ static void init(void)
 
 static void end(void)
 {
-	/*Config cfg;
-
-	Setting &root = cfg.getRoot();
-	Setting &address = root.add("Gearboy", Setting::TypeGroup);
-
-	address.add("keypad_left", Setting::TypeString) = SDL_GetKeyName(kc_keypad_left);
-	address.add("keypad_right", Setting::TypeString) = SDL_GetKeyName(kc_keypad_right);
-	address.add("keypad_up", Setting::TypeString) = SDL_GetKeyName(kc_keypad_up);
-	address.add("keypad_down", Setting::TypeString) = SDL_GetKeyName(kc_keypad_down);
-	address.add("keypad_a", Setting::TypeString) = SDL_GetKeyName(kc_keypad_a);
-	address.add("keypad_b", Setting::TypeString) = SDL_GetKeyName(kc_keypad_b);
-	address.add("keypad_start", Setting::TypeString) = SDL_GetKeyName(kc_keypad_start);
-	address.add("keypad_select", Setting::TypeString) = SDL_GetKeyName(kc_keypad_select);
-
-	address.add("joystick_gamepad_a", Setting::TypeInt) = jg_a;
-	address.add("joystick_gamepad_b", Setting::TypeInt) = jg_b;
-	address.add("joystick_gamepad_start", Setting::TypeInt) = jg_start;
-	address.add("joystick_gamepad_select", Setting::TypeInt) = jg_select;
-	address.add("joystick_gamepad_x_axis", Setting::TypeInt) = jg_x_axis;
-	address.add("joystick_gamepad_y_axis", Setting::TypeInt) = jg_y_axis;
-	address.add("joystick_gamepad_x_axis_invert", Setting::TypeBoolean) = jg_x_axis_invert;
-	address.add("joystick_gamepad_y_axis_invert", Setting::TypeBoolean) = jg_y_axis_invert;
-
-	address.add("emulator_pause", Setting::TypeString) = SDL_GetKeyName(kc_emulator_pause);
-	address.add("emulator_quit", Setting::TypeString) = SDL_GetKeyName(kc_emulator_quit);
-
-	address.add("emulator_pal0_red", Setting::TypeInt) = dmg_palette[0].red;
-	address.add("emulator_pal0_green", Setting::TypeInt) = dmg_palette[0].green;
-	address.add("emulator_pal0_blue", Setting::TypeInt) = dmg_palette[0].blue;
-	address.add("emulator_pal1_red", Setting::TypeInt) = dmg_palette[1].red;
-	address.add("emulator_pal1_green", Setting::TypeInt) = dmg_palette[1].green;
-	address.add("emulator_pal1_blue", Setting::TypeInt) = dmg_palette[1].blue;
-	address.add("emulator_pal2_red", Setting::TypeInt) = dmg_palette[2].red;
-	address.add("emulator_pal2_green", Setting::TypeInt) = dmg_palette[2].green;
-	address.add("emulator_pal2_blue", Setting::TypeInt) = dmg_palette[2].blue;
-	address.add("emulator_pal3_red", Setting::TypeInt) = dmg_palette[3].red;
-	address.add("emulator_pal3_green", Setting::TypeInt) = dmg_palette[3].green;
-	address.add("emulator_pal3_blue", Setting::TypeInt) = dmg_palette[3].blue;
-
-	cfg.writeFile(output_file);*/
-
-	//SDL_JoystickClose(game_pad);
-
 	SafeDeleteArray(theFrameBuffer);
 	SafeDelete(theGearboyCore);
 	vita2d_fini();
 	vita2d_free_texture(gb_texture);
-
-	/*SDL_DestroyWindow(theWindow);
-	SDL_Quit();
-	bcm_host_deinit();*/
 }
 
 static void update(void)
@@ -154,9 +120,16 @@ static void update(void)
 	vita2d_start_drawing();
 	vita2d_clear_screen();
 
-	theGearboyCore->RunToVBlank(gb_texture_pixels);
+	theGearboyCore->RunToVBlank((GB_Color *)gb_texture_pixels);
 
-	vita2d_draw_texture(gb_texture, 0, 0);
+	if (fullscreen) {
+		vita2d_draw_texture_scale(gb_texture, 0, 0,
+			fullscreen_scale_x, fullscreen_scale_y);
+
+	} else {
+		vita2d_draw_texture_scale(gb_texture,
+			gb_draw_x, gb_draw_y, scale, scale);
+	}
 
 	vita2d_end_drawing();
 	vita2d_swap_buffers();
