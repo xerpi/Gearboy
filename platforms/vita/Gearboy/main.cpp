@@ -34,17 +34,11 @@
 #define SCREEN_W 960
 #define SCREEN_H 544
 
-#define CHANGE_GAME_MASK (SCE_CTRL_TRIANGLE | SCE_CTRL_LTRIGGER)
-#define FULLSCREEN_MASK  (SCE_CTRL_RTRIGGER)
-#define TURBO_MASK       (SCE_CTRL_LTRIGGER)
+#define EXIT_MASK        (SCE_CTRL_LTRIGGER | SCE_CTRL_SQUARE)
+#define CHANGE_GAME_MASK (SCE_CTRL_LTRIGGER | SCE_CTRL_TRIANGLE)
+#define FULLSCREEN_MASK  (SCE_CTRL_SQUARE)
+#define TURBO_MASK       (SCE_CTRL_RTRIGGER)
 #define JOY_THRESHOLD    110
-
-struct palette_color {
-	int red;
-	int green;
-	int blue;
-	int alpha;
-};
 
 static bool running = true;
 static bool paused = false;
@@ -61,8 +55,6 @@ static GearboyCore *theGearboyCore;
 static GB_Color *theFrameBuffer;
 static vita2d_texture *gb_texture;
 static void *gb_texture_pixels;
-
-static palette_color dmg_palette[4];
 
 static SceCtrlData pad;
 static SceCtrlData old_pad;
@@ -90,44 +82,20 @@ static void set_scale(int new_scale)
 	gb_draw_y = SCREEN_H / 2 - (GAMEBOY_HEIGHT / 2) * scale;
 }
 
-static void init_palette(void)
-{
-	dmg_palette[0].red = 0xEF;
-	dmg_palette[0].green = 0xF3;
-	dmg_palette[0].blue = 0xD5;
-	dmg_palette[0].alpha = 0xFF;
-
-	dmg_palette[1].red = 0xA3;
-	dmg_palette[1].green = 0xB6;
-	dmg_palette[1].blue = 0x7A;
-	dmg_palette[1].alpha = 0xFF;
-
-	dmg_palette[2].red = 0x37;
-	dmg_palette[2].green = 0x61;
-	dmg_palette[2].blue = 0x3B;
-	dmg_palette[2].alpha = 0xFF;
-
-	dmg_palette[3].red = 0x04;
-	dmg_palette[3].green = 0x1C;
-	dmg_palette[3].blue = 0x16;
-	dmg_palette[3].alpha = 0xFF;
-}
-
 static void init(void)
 {
 	vita2d_init();
 	vita2d_set_clear_color(RGBA8(0x40, 0x40, 0x40, 0xFF));
-	init_palette();
 
 	sceCtrlSetSamplingMode(SCE_CTRL_MODE_ANALOG);
 
 	fullscreen_scale_x = SCREEN_W / (float)GAMEBOY_WIDTH;
 	fullscreen_scale_y = SCREEN_H / (float)GAMEBOY_HEIGHT;
 
-	set_scale(3);
-
 	gb_texture = vita2d_create_empty_texture(GAMEBOY_WIDTH, GAMEBOY_HEIGHT);
 	gb_texture_pixels = vita2d_texture_get_datap(gb_texture);
+
+	set_scale(3);
 
 	theGearboyCore = new GearboyCore();
 	theGearboyCore->Init();
@@ -162,10 +130,14 @@ static void update_input(void)
 	pressed = pad.buttons & ~old_pad.buttons;
 	released = ~pad.buttons & old_pad.buttons;
 
-	if ((pad.buttons & CHANGE_GAME_MASK) == CHANGE_GAME_MASK) {
-
+	if ((pad.buttons & EXIT_MASK) == EXIT_MASK) {
+		running = false;
 	} else if ((pressed & FULLSCREEN_MASK) == FULLSCREEN_MASK) {
 		fullscreen = !fullscreen;
+	} else if ((pressed & TURBO_MASK) == TURBO_MASK) {
+		vita2d_set_vblank_wait(0);
+	} else if ((released & TURBO_MASK) == TURBO_MASK) {
+		vita2d_set_vblank_wait(1);
 	}
 
 	for (i = 0; i < KEY_MAP_SIZE; i++) {
@@ -210,25 +182,6 @@ int main(int argc, char** argv)
 	bool nosound = false;
 
 	if (theGearboyCore->LoadROM(ROM_PATH, forcedmg)) {
-		GB_Color color1;
-		GB_Color color2;
-		GB_Color color3;
-		GB_Color color4;
-
-		color1.red = dmg_palette[0].red;
-		color1.green = dmg_palette[0].green;
-		color1.blue = dmg_palette[0].blue;
-		color2.red = dmg_palette[1].red;
-		color2.green = dmg_palette[1].green;
-		color2.blue = dmg_palette[1].blue;
-		color3.red = dmg_palette[2].red;
-		color3.green = dmg_palette[2].green;
-		color3.blue = dmg_palette[2].blue;
-		color4.red = dmg_palette[3].red;
-		color4.green = dmg_palette[3].green;
-		color4.blue = dmg_palette[3].blue;
-
-		theGearboyCore->SetDMGPalette(color1, color2, color3, color4);
 		theGearboyCore->EnableSound(!nosound);
 		theGearboyCore->LoadRam();
 
