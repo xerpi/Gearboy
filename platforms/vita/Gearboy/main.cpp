@@ -31,8 +31,13 @@
 
 #include <vita2d.h>
 
-#define SCREEN_W 940
+#define SCREEN_W 960
 #define SCREEN_H 544
+
+#define CHANGE_GAME_MASK (SCE_CTRL_TRIANGLE | SCE_CTRL_LTRIGGER)
+#define FULLSCREEN_MASK  (SCE_CTRL_RTRIGGER)
+#define TURBO_MASK       (SCE_CTRL_LTRIGGER)
+#define JOY_THRESHOLD    110
 
 struct palette_color {
 	int red;
@@ -58,6 +63,25 @@ static vita2d_texture *gb_texture;
 static void *gb_texture_pixels;
 
 static palette_color dmg_palette[4];
+
+static SceCtrlData pad;
+static SceCtrlData old_pad;
+
+static const struct {
+	unsigned int vita;
+	Gameboy_Keys gb;
+} key_map[] = {
+	{SCE_CTRL_CROSS,  A_Key},
+	{SCE_CTRL_CIRCLE, B_Key},
+	{SCE_CTRL_SELECT, Select_Key},
+	{SCE_CTRL_START,  Start_Key},
+	{SCE_CTRL_UP,     Up_Key},
+	{SCE_CTRL_DOWN,   Down_Key},
+	{SCE_CTRL_LEFT,   Left_Key},
+	{SCE_CTRL_RIGHT,  Right_Key},
+};
+
+#define KEY_MAP_SIZE (sizeof(key_map) / sizeof(*key_map))
 
 static void set_scale(int new_scale)
 {
@@ -95,6 +119,8 @@ static void init(void)
 	vita2d_set_clear_color(RGBA8(0x40, 0x40, 0x40, 0xFF));
 	init_palette();
 
+	sceCtrlSetSamplingMode(SCE_CTRL_MODE_ANALOG);
+
 	fullscreen_scale_x = SCREEN_W / (float)GAMEBOY_WIDTH;
 	fullscreen_scale_y = SCREEN_H / (float)GAMEBOY_HEIGHT;
 
@@ -115,10 +141,49 @@ static void end(void)
 	vita2d_free_texture(gb_texture);
 }
 
+static void update_input(void)
+{
+	unsigned int i;
+	unsigned int pressed;
+	unsigned int released;
+
+	sceCtrlPeekBufferPositive(0, &pad, 1);
+
+	if (pad.lx < (128 - JOY_THRESHOLD))
+		pad.buttons |= SCE_CTRL_LEFT;
+	else if (pad.lx > (128 + JOY_THRESHOLD))
+		pad.buttons |= SCE_CTRL_RIGHT;
+
+	if (pad.ly < (128 - JOY_THRESHOLD))
+		pad.buttons |= SCE_CTRL_UP;
+	else if (pad.ly > (128 + JOY_THRESHOLD))
+		pad.buttons |= SCE_CTRL_DOWN;
+
+	pressed = pad.buttons & ~old_pad.buttons;
+	released = ~pad.buttons & old_pad.buttons;
+
+	if ((pad.buttons & CHANGE_GAME_MASK) == CHANGE_GAME_MASK) {
+
+	} else if ((pressed & FULLSCREEN_MASK) == FULLSCREEN_MASK) {
+		fullscreen = !fullscreen;
+	}
+
+	for (i = 0; i < KEY_MAP_SIZE; i++) {
+		if (pressed & key_map[i].vita)
+			theGearboyCore->KeyPressed(key_map[i].gb);
+		else if (released & key_map[i].vita)
+			theGearboyCore->KeyReleased(key_map[i].gb);
+	}
+
+	old_pad = pad;
+}
+
 static void update(void)
 {
 	vita2d_start_drawing();
 	vita2d_clear_screen();
+
+	update_input();
 
 	theGearboyCore->RunToVBlank((GB_Color *)gb_texture_pixels);
 
