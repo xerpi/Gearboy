@@ -15,7 +15,7 @@ OBJS     = main.o Sound_Queue_vita.o Audio_vita.o $(GEARBOY_SRC)/MBC2MemoryRule.
 
 GEARBOY_FLAGS = -I$(GEARBOY_SRC) -I$(GEARBOY_SRC)/audio -DMINIZ_NO_TIME
 
-LIBS = -lvita2d -lSceKernel_stub -lSceDisplay_stub -lSceCommonDialog_stub \
+LIBS = -lvita2d -lSceDisplay_stub -lSceCommonDialog_stub \
 	-lSceGxm_stub -lSceSysmodule_stub -lSceCtrl_stub -lScePgf_stub \
 	-lSceRtc_stub -lSceAudio_stub -lpng -ljpeg -lfreetype -lz -lm -lc -lstdc++
 
